@@ -38,28 +38,24 @@ test('one', function(assert) {
       count += records.length;
       var data = JSON.parse((new Buffer(records[0].Data, 'base64')).toString());
       var expected = {
-        Records: [
-          {
-            eventId: '0',
-            eventVersion: '1.0',
-            awsRegion: 'us-east-1', // dynalite says so
-            eventSourceARN: 'arn:aws:dynamodb:us-east-1:000000000000:table/' + dynamodb.tableName + '/dynamodb-touch',
-            eventSource: 'dynamodb-touch',
-            eventName: 'INSERT',
-            dynamodb: {
-              Keys: {
-                id: { S: fixtures[0].id }
-              },
-              NewImage: {
-                id: { S: fixtures[0].id },
-                data: { B: fixtures[0].data.toString('base64') }
-              },
-              StreamViewType: 'NEW_IMAGE',
-              SequenceNumber: '0',
-              SizeBytes: (new Buffer(Dyno.serialize(fixtures[0]))).length
-            }
-          }
-        ]
+        eventId: '0',
+        eventVersion: '1.0',
+        awsRegion: 'us-east-1', // dynalite says so
+        eventSourceARN: 'arn:aws:dynamodb:us-east-1:000000000000:table/' + dynamodb.tableName + '/dynamodb-touch',
+        eventSource: 'dynamodb-touch',
+        eventName: 'INSERT',
+        dynamodb: {
+          Keys: {
+            id: { S: fixtures[0].id }
+          },
+          NewImage: {
+            id: { S: fixtures[0].id },
+            data: { B: fixtures[0].data.toString('base64') }
+          },
+          StreamViewType: 'NEW_IMAGE',
+          SequenceNumber: '0',
+          SizeBytes: (new Buffer(Dyno.serialize(fixtures[0]))).length
+        }
       };
 
       assert.deepEqual(data, expected, 'expected record written to kinesis');
@@ -97,28 +93,24 @@ test('some', function(assert) {
       count += records.length;
       var data = JSON.parse((new Buffer(records[0].Data, 'base64')).toString());
       var expected = {
-        Records: [
-          {
-            eventId: '0',
-            eventVersion: '1.0',
-            awsRegion: 'us-east-1', // dynalite says so
-            eventSourceARN: 'arn:aws:dynamodb:us-east-1:000000000000:table/' + dynamodb.tableName + '/dynamodb-touch',
-            eventSource: 'dynamodb-touch',
-            eventName: 'INSERT',
-            dynamodb: {
-              Keys: {
-                id: { S: fixtures[0].id }
-              },
-              NewImage: {
-                id: { S: fixtures[0].id },
-                data: { B: fixtures[0].data.toString('base64') }
-              },
-              StreamViewType: 'NEW_IMAGE',
-              SequenceNumber: '0',
-              SizeBytes: (new Buffer(Dyno.serialize(fixtures[0]))).length
-            }
-          }
-        ]
+        eventId: '0',
+        eventVersion: '1.0',
+        awsRegion: 'us-east-1', // dynalite says so
+        eventSourceARN: 'arn:aws:dynamodb:us-east-1:000000000000:table/' + dynamodb.tableName + '/dynamodb-touch',
+        eventSource: 'dynamodb-touch',
+        eventName: 'INSERT',
+        dynamodb: {
+          Keys: {
+            id: { S: fixtures[0].id }
+          },
+          NewImage: {
+            id: { S: fixtures[0].id },
+            data: { B: fixtures[0].data.toString('base64') }
+          },
+          StreamViewType: 'NEW_IMAGE',
+          SequenceNumber: '0',
+          SizeBytes: (new Buffer(Dyno.serialize(fixtures[0]))).length
+        }
       };
 
       assert.deepEqual(data, expected, 'expected record written to kinesis');

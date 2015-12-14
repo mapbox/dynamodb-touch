@@ -93,7 +93,7 @@ function WriteStream(schema, tableArn, kinesis) {
     record.dynamodb.SizeBytes = (new Buffer(JSON.stringify(record.dynamodb.NewImage))).length;
 
     kinesis.putRecord({
-      Data: JSON.stringify({ Records: [record] }),
+      Data: JSON.stringify(record),
       PartitionKey: crypto.createHash('md5').update(JSON.stringify(record.dynamodb.Keys)).digest('hex')
     }, callback);
   };
