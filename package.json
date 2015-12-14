@@ -1,0 +1,31 @@
+{
+  "name": "dynamodb-touch",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "eslint index.js test/*.js",
+    "test": "nyc tape test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapbox/dynamodb-touch.git"
+  },
+  "author": "Mapbox",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mapbox/dynamodb-touch/issues"
+  },
+  "homepage": "https://github.com/mapbox/dynamodb-touch#readme",
+  "devDependencies": {
+    "dynamodb-test": "^0.2.0",
+    "eslint": "^1.10.3",
+    "kinesis-test": "^1.0.0",
+    "nyc": "^5.0.0",
+    "tape": "^4.2.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.2.22",
+    "dyno": "^1.0.1"
+  }
+}

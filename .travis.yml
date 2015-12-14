@@ -1,0 +1,4 @@
+sudo: false
+language: nodejs
+nodejs:
+  - '0.10'
