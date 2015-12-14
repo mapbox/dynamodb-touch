@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "eslint index.js test/*.js",
-    "test": "nyc tape test/*.test.js"
+    "test": "AWS_ACCESS_KEY_ID=fake AWS_SECRET_ACCESS_KEY=fake nyc tape test/*.test.js"
   },
   "repository": {
     "type": "git",
