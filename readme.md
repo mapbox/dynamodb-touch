@@ -33,7 +33,7 @@ var clients = {
 };
 
 // send one event for a dynamodb record with the provided key
-touch.one({ id: 'some-record' }, function(err) {
+touch.one({ id: 'some-record' }, clients, function(err) {
   if (err) throw err;
 });
 
@@ -45,12 +45,12 @@ touch.some({
       AttributeValueList: ['some-record']
     }
   }
-}, function(err) {
+}, clients, function(err) {
   if (err) throw err;
 });
 
 // scan every record in dynamodb, sending events for each result
-touch.every(function(err) {
+touch.every(clients, function(err) {
   if (err) throw err;
 });
 ```
