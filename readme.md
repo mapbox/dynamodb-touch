@@ -53,6 +53,12 @@ touch.some({
 touch.every(clients, function(err) {
   if (err) throw err;
 });
+
+// send one event for a feature that has already been fetched
+var item = { id: 'record-id', data: 'record-data' };
+touch.thisOne(item, clients, function(err) {
+  if (err) throw err;
+});
 ```
 
 ## What events in Kinesis will look like

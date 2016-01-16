@@ -4,6 +4,7 @@ var stream = require('stream');
 var Locking = require('locking');
 
 module.exports.one = one;
+module.exports.thisOne = thisOne;
 module.exports.some = some;
 module.exports.every = every;
 
@@ -20,6 +21,16 @@ function one(key, clients, callback) {
       writer.write(data.Item);
       writer.end();
     });
+  });
+}
+
+function thisOne(item, clients, callback) {
+  describe(clients.dyno, function(err, tableData) {
+    var writer = WriteStream(tableData.schema, tableData.table, clients.kinesis)
+      .on('error', callback)
+      .on('finish', callback);
+    writer.write(item);
+    writer.end();
   });
 }
 
