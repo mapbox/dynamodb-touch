@@ -57,7 +57,7 @@ test('one', function(assert) {
           SizeBytes: (new Buffer(Dyno.serialize(fixtures[0]))).length
         }
       };
-
+      
       assert.deepEqual(data, expected, 'expected record written to kinesis');
       reader.close();
     })

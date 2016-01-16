@@ -1,6 +1,7 @@
 var Dyno = require('dyno');
 var crypto = require('crypto');
 var stream = require('stream');
+var Locking = require('locking');
 
 module.exports.one = one;
 module.exports.some = some;
@@ -54,7 +55,8 @@ function every(clients, callback) {
   return scanStream;
 }
 
-function describe(dyno, callback) {
+var describeTable = Locking(function(dynoConfig, callback) {
+  var dyno = Dyno(dynoConfig);
   dyno.describeTable({}, function(err, data) {
     if (err) return callback(err);
 
@@ -63,6 +65,12 @@ function describe(dyno, callback) {
       schema: data.Table.KeySchema
     });
   });
+});
+
+function describe(dyno, callback) {
+  var config = JSON.parse(JSON.stringify(dyno.config));
+  config.table = dyno.config.params.TableName;
+  describeTable(config, callback);
 }
 
 function WriteStream(schema, tableArn, kinesis) {
