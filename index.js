@@ -50,8 +50,13 @@ function some(query, clients, callback) {
   return queryStream;
 }
 
-function every(clients, callback) {
-  var scanStream = clients.dyno.scanStream();
+function every(clients, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  var scanStream = clients.dyno.scanStream(options);
 
   describe(clients.dyno, function(err, tableData) {
     if (err) return callback(err);
