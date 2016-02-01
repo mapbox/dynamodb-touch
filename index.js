@@ -90,6 +90,8 @@ function WriteStream(schema, tableArn, kinesis) {
     objectMode: true
   });
 
+  writeStream._buffer = [];
+
   writeStream._write = function(item, enc, callback) {
     var record = {
       eventId: '0',
@@ -111,10 +113,41 @@ function WriteStream(schema, tableArn, kinesis) {
 
     record.dynamodb.SizeBytes = (new Buffer(JSON.stringify(record.dynamodb.NewImage))).length;
 
-    kinesis.putRecord({
+    writeStream._buffer.push({
       Data: JSON.stringify(record),
       PartitionKey: crypto.createHash('md5').update(JSON.stringify(record.dynamodb.Keys)).digest('hex')
-    }, callback);
+    });
+
+    if (writeStream._buffer.length < 500) callback();
+    else writeStream._push(callback);
+  };
+
+  writeStream._push = function(callback) {
+    kinesis.putRecords({ Records: writeStream._buffer }, function(err) {
+      if (err) return callback(err);
+      writeStream._buffer = [];
+      callback();
+    });
+  };
+
+  var end = writeStream.end.bind(writeStream);
+  writeStream.end = function(item, enc, callback) {
+    if (!item) return done();
+
+    writeStream._write(item, null, function(err) {
+      if (err) writeStream.emit('error', err);
+      done();
+    });
+
+    function done() {
+      if (!writeStream._buffer.length)
+        return end(null, null, callback);
+
+      writeStream._push(function(err) {
+        if (err) return writeStream.emit('error', err);
+        end(null, null, callback);
+      });
+    }
   };
 
   return writeStream;

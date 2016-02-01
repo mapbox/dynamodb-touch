@@ -37,7 +37,7 @@ touch.one({ id: 'some-record' }, clients, function(err) {
   if (err) throw err;
 });
 
-// query dynmodb, sending events for each result
+// query dynamodb, sending events for each result
 touch.some({
   KeyConditions: {
     id: {
